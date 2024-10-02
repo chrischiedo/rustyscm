@@ -1,6 +1,8 @@
-use crate::lexer::{tokenize, Token};
-use crate::env::Environment;
 use std::fmt;
+
+use crate::env::Environment;
+use crate::lexer::{tokenize, Token};
+
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Expression {
@@ -72,12 +74,9 @@ fn parse_token_list(tokens: &mut Vec<Token>) -> Result<Expression, String> {
 }
 
 pub fn parse(input: &str) -> Result<Expression, String> {
-
     let token_result = match tokenize(input) {
         Ok(val) => val,
-        Err(err) => {
-            return Err(format!("{}", err))
-        }
+        Err(err) => return Err(format!("{}", err)),
     };
 
     let mut tokens = token_result.into_iter().rev().collect();
@@ -85,4 +84,53 @@ pub fn parse(input: &str) -> Result<Expression, String> {
     parse_token_list(&mut tokens)
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
 
+    #[test]
+    fn test_parse1() {
+        let input = "(define r 10)";
+
+        let actual_parsed_expr = parse(input).unwrap();
+
+        let expected_expr = Expression::List(vec![
+            Expression::Symbol("define".to_string()),
+            Expression::Symbol("r".to_string()),
+            Expression::Number(10.0),
+        ]);
+
+        assert_eq!(actual_parsed_expr, expected_expr);
+    }
+
+    #[test]
+    fn test_parse2() {
+        let input = "(
+                         (define x 5)
+                         (define y 10)
+                         (* x y)
+                       )";
+
+        let actual_parsed_expr = parse(input).unwrap();
+
+        let expected_expr = Expression::List(vec![
+            Expression::List(vec![
+                Expression::Symbol("define".to_string()),
+                Expression::Symbol("x".to_string()),
+                Expression::Number(5.0),
+            ]),
+            Expression::List(vec![
+                Expression::Symbol("define".to_string()),
+                Expression::Symbol("y".to_string()),
+                Expression::Number(10.0),
+            ]),
+            Expression::List(vec![
+                Expression::Symbol("*".to_string()),
+                Expression::Symbol("x".to_string()),
+                Expression::Symbol("y".to_string()),
+            ]),
+        ]);
+
+        assert_eq!(actual_parsed_expr, expected_expr);
+    }
+}

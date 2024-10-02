@@ -1,7 +1,6 @@
 use crate::env::Environment;
 use crate::parser::{parse, Expression, Procedure};
 
-
 fn eval_define(list: &[Expression], env: &mut Environment) -> Result<Expression, String> {
     if list.len() < 3 {
         return Err("'define' requires at least two arguments".into());
@@ -60,8 +59,10 @@ fn eval_list(list: &[Expression], env: &mut Environment) -> Result<Expression, S
                     match exp {
                         Expression::Func(f) => {
                             let function = f.clone();
-                            let args: Result<Vec<Expression>, String> =
-                                list[1..].iter().map(|x| eval_expr(x.clone(), env)).collect();
+                            let args: Result<Vec<Expression>, String> = list[1..]
+                                .iter()
+                                .map(|x| eval_expr(x.clone(), env))
+                                .collect();
                             Ok(function(&args?))
                         }
                         Expression::Function(proc) => {

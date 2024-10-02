@@ -1,10 +1,10 @@
 use std::io;
 
-pub mod lexer;
-pub mod parser;
-pub mod eval;
 pub mod env;
+pub mod eval;
+mod lexer;
 mod op_utils;
+pub mod parser;
 
 use crate::env::standard_env;
 use crate::eval::eval;

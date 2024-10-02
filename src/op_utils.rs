@@ -5,7 +5,7 @@ use anyhow::{anyhow, Result};
 pub fn power(args: &[Expression]) -> Result<Expression> {
     if args.len() != 2 {
         return Err(anyhow!(
-            "Exponential operator requires two arguments: base and exponential factor"
+            "Exponent operator requires two arguments: base and exponent factor"
         ));
     }
 

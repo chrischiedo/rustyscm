@@ -1,11 +1,9 @@
 use std::collections::HashMap;
 use std::f64::consts::PI;
 
-use crate::parser::Expression;
 use crate::op_utils::*;
+use crate::parser::Expression;
 
-
-// An environment with some Scheme standard procedures.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Environment {
     contents: HashMap<String, Expression>,
@@ -27,106 +25,87 @@ impl Environment {
     }
 }
 
+// An environment with some Scheme standard procedures
 pub fn standard_env() -> Environment {
     let mut environment = Environment::new();
 
     // Basic arithmetic operators
     environment.insert(
         "+".to_string(),
-        Expression::Func(|args: &[Expression]| {
-            match add(args) {
-                Ok(expr) => expr,
-                Err(e) => panic!("{}", e),
-            }
+        Expression::Func(|args: &[Expression]| match add(args) {
+            Ok(expr) => expr,
+            Err(e) => panic!("{}", e),
         }),
     );
     environment.insert(
         "-".to_string(),
-        Expression::Func(|args: &[Expression]| {
-            match subtract(args) {
-                Ok(expr) => expr,
-                Err(e) => panic!("{}", e),
-            }
+        Expression::Func(|args: &[Expression]| match subtract(args) {
+            Ok(expr) => expr,
+            Err(e) => panic!("{}", e),
         }),
     );
     environment.insert(
         "*".to_string(),
-        Expression::Func(|args: &[Expression]| {
-            match multiply(args) {
-                Ok(expr) => expr,
-                Err(e) => panic!("{}", e),
-            }
+        Expression::Func(|args: &[Expression]| match multiply(args) {
+            Ok(expr) => expr,
+            Err(e) => panic!("{}", e),
         }),
     );
     environment.insert(
         "/".to_string(),
-        Expression::Func(|args: &[Expression]| {
-            match divide(args) {
-                Ok(expr) => expr,
-                Err(e) => panic!("{}", e),
-            }
+        Expression::Func(|args: &[Expression]| match divide(args) {
+            Ok(expr) => expr,
+            Err(e) => panic!("{}", e),
         }),
     );
 
     // Exponent
     environment.insert(
         "pow".to_string(),
-        Expression::Func(|args: &[Expression]| {
-            match power(args) {
-                Ok(expr) => expr,
-                Err(e) => panic!("{}", e),
-            }
+        Expression::Func(|args: &[Expression]| match power(args) {
+            Ok(expr) => expr,
+            Err(e) => panic!("{}", e),
         }),
     );
 
     // Comparison operators
     environment.insert(
         "=".to_string(),
-        Expression::Func(|args: &[Expression]| {
-            match compare(args, "=") {
-                Ok(expr) => expr,
-                Err(e) => panic!("{}", e),
-            }
+        Expression::Func(|args: &[Expression]| match compare(args, "=") {
+            Ok(expr) => expr,
+            Err(e) => panic!("{}", e),
         }),
     );
 
     environment.insert(
         ">".to_string(),
-        Expression::Func(|args: &[Expression]| {
-            match compare(args, ">") {
-                Ok(expr) => expr,
-                Err(e) => panic!("{}", e),
-            }
+        Expression::Func(|args: &[Expression]| match compare(args, ">") {
+            Ok(expr) => expr,
+            Err(e) => panic!("{}", e),
         }),
     );
 
     environment.insert(
         "<".to_string(),
-        Expression::Func(|args: &[Expression]| {
-            match compare(args, "<") {
-                Ok(expr) => expr,
-                Err(e) => panic!("{}", e),
-            }
+        Expression::Func(|args: &[Expression]| match compare(args, "<") {
+            Ok(expr) => expr,
+            Err(e) => panic!("{}", e),
         }),
     );
 
     environment.insert(
         ">=".to_string(),
-        Expression::Func(|args: &[Expression]| {
-            match compare(args, ">=") {
-                Ok(expr) => expr,
-                Err(e) => panic!("{}", e),
-            }
+        Expression::Func(|args: &[Expression]| match compare(args, ">=") {
+            Ok(expr) => expr,
+            Err(e) => panic!("{}", e),
         }),
     );
 
     environment.insert(
         "<=".to_string(),
-        Expression::Func(|args: &[Expression]| {
-            match compare(args, "<=") {
-                Ok(expr) => expr,
-                Err(e) => panic!("{}", e),
-            }
+        Expression::Func(|args: &[Expression]| match compare(args, "<=") {
+            Ok(expr) => expr,
+            Err(e) => panic!("{}", e),
         }),
     );
 

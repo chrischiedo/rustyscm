@@ -20,9 +20,7 @@ impl fmt::Display for Token {
 }
 
 pub fn tokenize(expr: &str) -> Result<Vec<Token>, String> {
-    let expr = expr
-                        .replace("(", " ( ")
-                        .replace(")", " ) ");
+    let expr = expr.replace("(", " ( ").replace(")", " ) ");
 
     let words = expr.split_whitespace();
 
@@ -44,4 +42,61 @@ pub fn tokenize(expr: &str) -> Result<Vec<Token>, String> {
     }
 
     Ok(tokens)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_tokenize1() {
+        let input = "(define r 10)";
+
+        let actual_tokens = tokenize(input).unwrap_or(vec![]);
+
+        let expected_tokens = vec![
+            Token::OpenParen,
+            Token::Symbol("define".to_string()),
+            Token::Symbol("r".to_string()),
+            Token::Number(10.0),
+            Token::CloseParen,
+        ];
+
+        assert_eq!(actual_tokens, expected_tokens);
+    }
+
+    #[test]
+    fn test_tokenize2() {
+        let input = "
+            (
+                (define x 5)
+                (define y 10)
+                (* x y)
+            )
+        ";
+
+        let actual_tokens = tokenize(input).unwrap_or(vec![]);
+
+        let expected_tokens = vec![
+            Token::OpenParen,
+            Token::OpenParen,
+            Token::Symbol("define".to_string()),
+            Token::Symbol("x".to_string()),
+            Token::Number(5.0),
+            Token::CloseParen,
+            Token::OpenParen,
+            Token::Symbol("define".to_string()),
+            Token::Symbol("y".to_string()),
+            Token::Number(10.0),
+            Token::CloseParen,
+            Token::OpenParen,
+            Token::Symbol("*".to_string()),
+            Token::Symbol("x".to_string()),
+            Token::Symbol("y".to_string()),
+            Token::CloseParen,
+            Token::CloseParen,
+        ];
+
+        assert_eq!(actual_tokens, expected_tokens);
+    }
 }
