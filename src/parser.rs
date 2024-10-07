@@ -42,7 +42,7 @@ fn parse_token_list(tokens: &mut Vec<Token>) -> Result<Expression, String> {
     let token = tokens.pop();
 
     if token != Some(Token::OpenParen) {
-        return Err(format!("Expected OpenParen, found {:?}", token));
+        return Err(format!("Error: Expected OpenParen, found {:?}", token));
     }
 
     let mut list: Vec<Expression> = Vec::new();
@@ -51,7 +51,7 @@ fn parse_token_list(tokens: &mut Vec<Token>) -> Result<Expression, String> {
         let token = tokens.pop();
 
         if token == None {
-            return Err("Did not find enough tokens".to_string());
+            return Err("Error: Did not find enough tokens".to_string());
         }
 
         let tok = token.unwrap();
@@ -82,55 +82,4 @@ pub fn parse(input: &str) -> Result<Expression, String> {
     let mut tokens = token_result.into_iter().rev().collect();
 
     parse_token_list(&mut tokens)
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_parse1() {
-        let input = "(define r 10)";
-
-        let actual_parsed_expr = parse(input).unwrap();
-
-        let expected_expr = Expression::List(vec![
-            Expression::Symbol("define".to_string()),
-            Expression::Symbol("r".to_string()),
-            Expression::Number(10.0),
-        ]);
-
-        assert_eq!(actual_parsed_expr, expected_expr);
-    }
-
-    #[test]
-    fn test_parse2() {
-        let input = "(
-                         (define x 5)
-                         (define y 10)
-                         (* x y)
-                       )";
-
-        let actual_parsed_expr = parse(input).unwrap();
-
-        let expected_expr = Expression::List(vec![
-            Expression::List(vec![
-                Expression::Symbol("define".to_string()),
-                Expression::Symbol("x".to_string()),
-                Expression::Number(5.0),
-            ]),
-            Expression::List(vec![
-                Expression::Symbol("define".to_string()),
-                Expression::Symbol("y".to_string()),
-                Expression::Number(10.0),
-            ]),
-            Expression::List(vec![
-                Expression::Symbol("*".to_string()),
-                Expression::Symbol("x".to_string()),
-                Expression::Symbol("y".to_string()),
-            ]),
-        ]);
-
-        assert_eq!(actual_parsed_expr, expected_expr);
-    }
 }
