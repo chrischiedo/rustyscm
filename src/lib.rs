@@ -3,7 +3,7 @@ use std::io;
 pub mod env;
 pub mod eval;
 mod lexer;
-mod op_utils;
+mod operator_utils;
 pub mod parser;
 
 use crate::env::standard_env;

@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::f64::consts::PI;
 
-use crate::op_utils::*;
+use crate::operator_utils::*;
 use crate::parser::Expression;
 
 #[derive(Debug, Clone, PartialEq)]
