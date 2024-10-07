@@ -73,10 +73,10 @@ fn eval_list(list: &[Expression], env: &mut Environment) -> Result<Expression, S
                                 .map(|x| eval_expr(x.clone(), env_clone))
                                 .collect();
 
-                            // Create a new environment for the function
+                            // Create a new execution environment for the function
                             let mut local_env = proc.env.clone();
 
-                            // Insert the function name in the new environment to allow for recursion
+                            // Insert the function name into the new environment
                             local_env.insert(s.clone(), exp.clone());
 
                             for (param, arg) in proc.params.iter().zip(args?) {
