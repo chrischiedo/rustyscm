@@ -14,7 +14,7 @@ Check out the companion blog post, [Building a minimal Scheme Interpreter in Rus
 </ul>
 
 <ul style="margin-top: 0px; margin-bottom: 0px;">
-  <li><strong>Numbers</strong>: Supports signed 64-bit integers and floating point numbers, with pi being defined in the standard environment.</li>
+  <li><strong>Numbers</strong>: Supports 64-bit integer and floating point numbers, with 'pi' being defined in the standard environment.</li>
   <li><strong>Arithmetic operations</strong>: Supports basic arithmetic operations (+, -, *, /).</li>
   <li><strong>Comparison operations</strong>: Supports comparison operators (>, <, =, >=, <=).</li>
   <li><strong>Variable definitions</strong>: Allows user-defined variables.</li>
